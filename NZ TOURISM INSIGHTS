@@ -1,0 +1,65 @@
+import tkinter as tk
+
+# Predefined NZ Tourism Data (Example)
+tourism_data = {
+    "North Island": {
+        "Domestic": {"Graph": "📊 75% local travelers", "Table": "Home stays: 60%, Hotels: 40%", "Summary": "High domestic tourism in city areas."},
+        "International": {"Graph": "📊 60% overseas visitors", "Table": "Hotels: 70%, Apartments: 30%", "Summary": "Popular among adventure tourists."},
+        "Backpackers": {"Graph": "📊 45% budget travelers", "Table": "Hostels: 80%, Camping: 20%", "Summary": "Favored for nature exploration."},
+        "Luxury": {"Graph": "📊 30% premium tourists", "Table": "Resorts: 90%, Villas: 10%", "Summary": "Attracts high-spending travelers."}
+    },
+    "South Island": {
+        "Domestic": {"Graph": "📊 65% local travelers", "Table": "Motels: 50%, Resorts: 50%", "Summary": "Famous for scenic road trips."},
+        "International": {"Graph": "📊 55% overseas visitors", "Table": "Hotels: 60%, Eco Lodges: 40%", "Summary": "Adventure-seekers prefer Queenstown."},
+        "Backpackers": {"Graph": "📊 50% budget travelers", "Table": "Hostels: 75%, Campervans: 25%", "Summary": "Great for budget exploration."},
+        "Luxury": {"Graph": "📊 40% premium tourists", "Table": "Luxury resorts: 85%, Private lodges: 15%", "Summary": "High-end travel experiences."}
+    }
+}
+
+# Function to Display Tourism Insights
+def show_tourism_data():
+    region = region_var.get()
+    visitor_type = visitor_var.get()
+    data_format = format_var.get()
+
+    if region in tourism_data and visitor_type in tourism_data[region] and data_format in tourism_data[region][visitor_type]:
+        insights = tourism_data[region][visitor_type][data_format]
+        result_label.config(text=f"Tourism Insights for {visitor_type} in {region}:\n{insights}")
+    else:
+        result_label.config(text="No matching tourism data found.")
+
+# GUI Setup
+root = tk.Tk()
+root.title("NZ Tourism Insights Dashboard")
+root.geometry("400x300")
+
+# Dropdown for Region Selection
+tk.Label(root, text="Select region:").pack(pady=5)
+region_var = tk.StringVar(root)
+region_var.set("North Island")
+region_menu = tk.OptionMenu(root, region_var, *tourism_data.keys())
+region_menu.pack(pady=5)
+
+# Dropdown for Visitor Type
+tk.Label(root, text="Select visitor type:").pack(pady=5)
+visitor_var = tk.StringVar(root)
+visitor_var.set("Domestic")
+visitor_menu = tk.OptionMenu(root, visitor_var, "Domestic", "International", "Backpackers", "Luxury")
+visitor_menu.pack(pady=5)
+
+# Dropdown for Data Format
+tk.Label(root, text="Select data format:").pack(pady=5)
+format_var = tk.StringVar(root)
+format_var.set("Graph")
+format_menu = tk.OptionMenu(root, format_var, "Graph", "Table", "Summary")
+format_menu.pack(pady=5)
+
+# Button to Display Tourism Data
+tk.Button(root, text="Show Insights", command=show_tourism_data).pack(pady=10)
+
+# Result Display
+result_label = tk.Label(root, text="", font=("Arial", 12), justify="left")
+result_label.pack(pady=10)
+
+# Run the App
+root.mainloop()
